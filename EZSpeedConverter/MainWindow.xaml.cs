@@ -1,9 +1,8 @@
-﻿using System;
+using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls.Primitives;
@@ -217,7 +216,7 @@ namespace EZSpeedConverter
                 {
                     if (Menu_KeepPitch.IsChecked == true)
                     {
-                        if (ToPAL.IsChecked == true)
+                        if (ToPALFile.IsChecked == true)
                         {
                             bw.DoWork += new DoWorkEventHandler(delegate (object o, DoWorkEventArgs args)
                             {
@@ -237,7 +236,7 @@ namespace EZSpeedConverter
                                 }
                             });
                         }
-                        else if (ToNTSC.IsChecked == true)
+                        else if (ToNTSCFile.IsChecked == true)
                         {
                             bw.DoWork += new DoWorkEventHandler(delegate (object o, DoWorkEventArgs args)
                             {
@@ -276,13 +275,13 @@ namespace EZSpeedConverter
                                 if (deleteAfterConvert.IsChecked == true)
                                 {
                                     File.Delete(file);
-                                }   
+                                }
                             });
                         }
                     }
                     else
                     {
-                        if (ToPAL.IsChecked == true)
+                        if (ToPALFile.IsChecked == true)
                         {
                             bw.DoWork += new DoWorkEventHandler(delegate (object o, DoWorkEventArgs args)
                             {
@@ -302,7 +301,7 @@ namespace EZSpeedConverter
                                 }
                             });
                         }
-                        else if (ToNTSC.IsChecked == true)
+                        else if (ToNTSCFile.IsChecked == true)
                         {
                             bw.DoWork += new DoWorkEventHandler(delegate (object o, DoWorkEventArgs args)
                             {
@@ -350,7 +349,14 @@ namespace EZSpeedConverter
                 {
                     MessageBox.Show("Your conversion operation has completed! Check to see if it worked.", "Success!");
                 });
-                bw.RunWorkerAsync();
+                if (!bw.IsBusy)
+                {
+                    bw.RunWorkerAsync();
+                }
+                else
+                {
+                    MessageBox.Show("Background worker is busy.", "Error!");
+                }
             }
         }
 
